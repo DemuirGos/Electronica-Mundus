@@ -40,8 +40,19 @@ INSERT INTO Commande
 VALUES
     (886, TO_DATE('1/2/2019', 'DD/MM/YYYY'), 1, 2);
 
+CREATE SEQUENCE prodCom_id_seq;
+
+CREATE TRIGGER prodComTrig
+    BEFORE INSERT ON ProduitCommandes
+    FOR EACH ROW
+BEGIN
+    SELECT prodCom_id_seq.nextval
+    INTO :new.id_produit
+    FROM dual;
+END;
+
 INSERT ALL
-    INTO ProduitCommandes VALUES (1, 886, 'A01', 10)
-    INTO ProduitCommandes VALUES (2, 886, 'A02', 2)
-    INTO ProduitCommandes VALUES (3, 886, 'B15', 1)
+    INTO ProduitCommandes (N_COMMANDE, REF_CATALOGUE, QUANTITE) VALUES (886, 'A01', 10)
+    INTO ProduitCommandes (N_COMMANDE, REF_CATALOGUE, QUANTITE) VALUES (886, 'A02', 2)
+    INTO ProduitCommandes (N_COMMANDE, REF_CATALOGUE, QUANTITE) VALUES (886, 'B15', 1)
 SELECT 1 FROM DUAL;

@@ -54,6 +54,8 @@ CREATE TABLE Commande
             REFERENCES Client (id_client)
 );
 
+DROP TABLE ProduitCommandes;
+
 CREATE TABLE ProduitCommandes
 (
     id_produit    INT PRIMARY KEY,
