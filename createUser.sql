@@ -1,0 +1,5 @@
+alter session set "_ORACLE_SCRIPT"=true;
+
+CREATE USER PROJET IDENTIFIED BY yourpassword;
+
+GRANT CONNECT, RESOURCE, DBA TO PROJET;
