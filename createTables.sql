@@ -1,13 +1,21 @@
 alter session set current_schema = PROJET;
 
+DROP TABLE ProduitCommandes;
+DROP SEQUENCE prodCom_id_seq;
+DROP TABLE Commande;
+DROP TABLE Catalogue;
+DROP TABLE Famille;
+DROP TABLE Categorie;
+DROP TABLE Client;
 DROP TABLE Region;
+
 CREATE TABLE Region
 (
     id_region INT PRIMARY KEY,
     libelle   VARCHAR(100) NOT NULL
 );
 
-DROP TABLE Client;
+
 CREATE TABLE Client
 (
     id_client    INT PRIMARY KEY,
@@ -18,24 +26,23 @@ CREATE TABLE Client
             REFERENCES Region (id_region),
     email        VARCHAR(100),
     date_contact DATE,
-    observations VARCHAR2 
+    observations VARCHAR2(255)
 );
 
-DROP TABLE Categorie;
 CREATE TABLE Categorie
 (
     id_categorie INT PRIMARY KEY,
     libelle      VARCHAR(50) NOT NULL
 );
 
-DROP TABLE Famille;
+
 CREATE TABLE Famille
 (
     id_famille INT PRIMARY KEY,
     libelle    VARCHAR(50) NOT NULL
 );
 
-DROP TABLE Catalogue;
+
 CREATE TABLE Catalogue
 (
     ref          VARCHAR(10) PRIMARY KEY,
@@ -50,7 +57,7 @@ CREATE TABLE Catalogue
     tva          INT          NOT NULL
 );
 
-DROP TABLE Commande;
+
 CREATE TABLE Commande
 (
     n_commande    INT PRIMARY KEY,
@@ -63,7 +70,7 @@ CREATE TABLE Commande
     montantTTC    INT         
 );
 
-DROP TABLE ProduitCommandes;
+
 CREATE TABLE ProduitCommandes
 (
     id_produit    INT PRIMARY KEY,
@@ -75,5 +82,16 @@ CREATE TABLE ProduitCommandes
             REFERENCES Catalogue(ref),
     quantite      INT,
     montantHT     NUMBER,
-    montantTTC    NUMBER,
+    montantTTC    NUMBER
 );
+
+CREATE SEQUENCE prodCom_id_seq;
+
+CREATE OR REPLACE TRIGGER prodComTrig
+    BEFORE INSERT ON ProduitCommandes
+    FOR EACH ROW
+BEGIN
+    SELECT prodCom_id_seq.nextval
+    INTO :new.id_produit
+    FROM dual;
+END;

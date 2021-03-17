@@ -16,7 +16,7 @@ INSERT ALL
                         1, 
                         'ahmed@mail.com',
                         TO_DATE('2/11/2019', 'DD/MM/YYYY'),
-                       "A passé une grosse commande en janvier 2018 ; depuis, plus rien. Penser à reprendre contact")
+                       'A passé une grosse commande en janvier 2018 ; depuis, plus rien. Penser à reprendre contact')
     INTO Client VALUES (2,
                         'ESSEGHIRI',
                         'Res Naoufal app 8,
@@ -24,14 +24,14 @@ INSERT ALL
                         2,
                         'youssef@mail.com',
                         TO_DATE('27/10/2018', 'DD/MM/YYYY'),
-                        "Client contactée grâce à M. Houty de Casablanca. Remise de 10% sur la dernière commande suite à un retard d’envoi.")
+                        'Client contactée grâce à M. Houty de Casablanca. Remise de 10% sur la dernière commande suite à un retard d’envoi.')
     INTO Client VALUES (3, 
-                        'Houty', 
-                        'Settat', 
+                        'Belmir',
+                        'Tetouan',
                         2, 
                         'karim@mail.com', 
                         TO_DATE('20/11/2018', 'DD/MM/YYYY'),
-                        "Client fidèle qui passe des commandes régulièrement (environ une par mois).")
+                        'Client fidèle qui passe des commandes régulièrement (environ une par mois).')
 SELECT 1 FROM DUAL;
 
 INSERT ALL
@@ -61,7 +61,7 @@ VALUES
     (886, TO_DATE('1/2/2019', 'DD/MM/YYYY'), 1, 2, 4329.00, 5036.4);
 
 INSERT ALL
-    INTO ProduitCommandes VALUES (1, 886, 'A01', 10, 1500, 1680)
-    INTO ProduitCommandes VALUES (2, 886, 'A02', 2, 480, 537.6)
-    INTO ProduitCommandes VALUES (3, 886, 'B15', 1, 2349, 2818.8)
+    INTO ProduitCommandes (N_COMMANDE, REF_CATALOGUE, QUANTITE, MONTANTHT, MONTANTTTC) VALUES (886, 'A01', 10, 1500, 1680)
+    INTO ProduitCommandes (N_COMMANDE, REF_CATALOGUE, QUANTITE, MONTANTHT, MONTANTTTC) VALUES (886, 'A02', 2, 480, 537.6)
+    INTO ProduitCommandes (N_COMMANDE, REF_CATALOGUE, QUANTITE, MONTANTHT, MONTANTTTC) VALUES (886, 'B15', 1, 2349, 2818.8)
 SELECT 1 FROM DUAL;
