@@ -1,5 +1,3 @@
-CREATE TYPE Tuple2 IS OBJECT (left NUMBER, right NUMBER);
-
 CREATE OR REPLACE FUNCTION getClientWhere(where_clause IN VARCHAR2)
 RETURN INT
 AS
@@ -15,7 +13,7 @@ RETURN INT
 AS
     result INT;
 BEGIN
-    result := getClientWhere('WHERE (sommeCommandesDe(id_client) = SELECT MAX(montantTTC) FROM Commande)');
+    result := getClientWhere('WHERE sommeCommandesDe(id_client) = (SELECT MAX(montantTTC) FROM Commande)');
     RETURN result;
 END;
 
@@ -24,7 +22,7 @@ RETURN INT
 AS
     result INT;
 BEGIN 
-    result := getClientWhere('WHERE (sommeCommandesDe(id_client) = SELECT MIN(montantTTC) FROM Commande)');
+    result := getClientWhere('WHERE sommeCommandesDe(id_client) = (SELECT MIN(montantTTC) FROM Commande)');
     RETURN result;
 END; 
 
