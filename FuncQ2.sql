@@ -15,7 +15,7 @@ RETURN INT
 AS
     result INT;
 BEGIN
-    result := getClientWhere('WHERE (sommeCommandesDe(id_client) = 5036)'); --(SELECT MAX(montantTTC) FROM Commande)');
+    result := getClientWhere('WHERE (sommeCommandesDe(id_client) = SELECT MAX(montantTTC) FROM Commande)');
     RETURN result;
 END;
 
@@ -24,7 +24,7 @@ RETURN INT
 AS
     result INT;
 BEGIN 
-    result := getClientWhere('WHERE (sommeCommandesDe(id_client) = 1482)'); --= (SELECT MIN(montantTTC) FROM Commande)');
+    result := getClientWhere('WHERE (sommeCommandesDe(id_client) = SELECT MIN(montantTTC) FROM Commande)');
     RETURN result;
 END; 
 
