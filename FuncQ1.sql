@@ -1,8 +1,7 @@
 CREATE OR REPLACE FUNCTION sommeCommandesDe (
     idClient IN NUMBER
 )
-RETURN number IS 
-   total number := 0; 
+RETURN NUMBER AS total
 BEGIN 
    SELECT SUM(montantTTC)
    into total
