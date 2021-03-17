@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION getClientWhere(where_clause IN VARCHAR2)
 RETURN INT
 AS
     result INT;
-BEGIN 
+BEGIN
     EXECUTE IMMEDIATE 'SELECT id_client FROM Commande ' || where_clause
         INTO result;
     RETURN result;
