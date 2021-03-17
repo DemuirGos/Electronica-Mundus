@@ -4,7 +4,8 @@ DECLARE
     Price NUMBER;
     TVA   NUMBER;
     MontantHT NUMBER;
-    Total NUMBER;
+    TotalHT NUMBER;
+    TotalTTC NUMBER;
 CREATE OR REPLACE PROCEDURE launchOrder
             (numCom IN COMMANDE.N_COMMANDE%type,
              dateCom IN COMMANDE.DATE_COMMANDE%TYPE,
@@ -15,12 +16,14 @@ CREATE OR REPLACE PROCEDURE launchOrder
              remises IN ARRAY_OF_INT)
 AS
 BEGIN
-    Total := 0;
+    TotalHT := 0;
+    TotalTTC := 0;
     FOR i IN 1..idProduit.COUNT LOOP
-        Select montant, tva into Price,TVA from COMMANDE where id_produit = id_produit(i);
+        SELECT montant, tva into Price,TVA from COMMANDE where id_produit = id_produit(i);
         MontantHT := Price * quant(i);
-        INSERT INTO PRODUITCOMMANDES (N_COMMANDE, REF_CATALOGUE, QUANTITE) VALUES (numCom, idProduit(i), quant(i), MontantHT, MontantHT * (1 + TVA) - remises(i));
-        Total = Total + MontantHT * ( 1 + TVA ) - remises(i);
+        INSERT INTO PRODUITCOMMANDES VALUES (numCom, idProduit(i), quant(i), MontantHT, MontantHT * (1 + TVA) - remises(i));
+        TotalTTC = Total + MontantHT * (1 + TVA) - remises(i);
+        TotalHT = Total + MontantHT;
     END LOOP;
-    INSERT INTO COMMANDE VALUES (numCom, dateCom, reg, idCLient, Total);
+    INSERT INTO COMMANDE VALUES (numCom, dateCom, reg, idCLient, TotalHT, TotalTTC);
 END;
