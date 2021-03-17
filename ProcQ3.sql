@@ -8,6 +8,11 @@ CREATE OR REPLACE PROCEDURE launchOrderWithDiscount
              remise IN INT)
 AS
 BEGIN
-    launchOrder(numCom,dateCom,reg,
-        idClient,idProduit,quant, remise);
+    launchOrder(numCom,
+                dateCom,
+                reg,
+                idClient,
+                idProduit,
+                quant, 
+                remise);
 END;
