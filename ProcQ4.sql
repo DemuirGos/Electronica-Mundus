@@ -19,7 +19,7 @@ BEGIN
     TotalHT := 0;
     TotalTTC := 0;
     FOR i IN 1..idProduit.COUNT LOOP
-        SELECT montant, tva into Price,TVA from COMMANDE where id_produit = id_produit(i);
+        SELECT montant, tva into Price,TVA from Catalogue WHERE ref = idProduit(i);
         MontantHT := Price * quant(i);
         INSERT INTO PRODUITCOMMANDES VALUES (numCom, idProduit(i), quant(i), MontantHT, MontantHT * (1 + TVA) - remises(i));
         TotalTTC = Total + MontantHT * (1 + TVA) - remises(i);
