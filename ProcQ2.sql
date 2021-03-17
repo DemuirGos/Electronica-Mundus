@@ -16,6 +16,7 @@ AS
 BEGIN
     INSERT INTO COMMANDE VALUES (numCom, dateCom, reg, idCLient, 0, 0);
     FOR i IN 1..idProduit.COUNT LOOP
+<<<<<<< HEAD
         addProd(numCom, idProduit(i), quant(i), remise);
     END LOOP;
 
@@ -26,3 +27,13 @@ BEGIN
     UPDATE COMMANDE SET MONTANTHT = TotalHT, MONTANTTTC = TotalTTC WHERE N_COMMANDE = numCom;
 END;
 
+=======
+        SELECT montant, tva INTO Price,TVA FROM Catalogue WHERE ref = idProduit(i);
+        MontantHT := Price * quant(i);
+        INSERT INTO PRODUITCOMMANDES VALUES (numCom, idProduit(i), quant(i), MontantHT, MontantHT * (1 + TVA));
+        TotalTTC = Total + MontantHT * (1 + TVA);
+        TotalHT = Total + MontantHT;
+    END LOOP;
+    INSERT INTO COMMANDE VALUES (numCom, dateCom, reg, idCLient, TotalHT, TotalTTC - remise);
+END;
+>>>>>>> 08949aaf708b1e70af332175f61f2541652183d9
