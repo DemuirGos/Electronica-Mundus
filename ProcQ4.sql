@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE launchOrder
+CREATE OR REPLACE PROCEDURE launchOrderProdDisc
             (numCom IN COMMANDE.N_COMMANDE%type,
              dateCom IN COMMANDE.DATE_COMMANDE%TYPE,
              reg IN COMMANDE.REGLE%TYPE,
