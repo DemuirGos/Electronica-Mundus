@@ -15,7 +15,8 @@ CREATE TABLE Client
         CONSTRAINT fk_id_region
             REFERENCES Region (id_region),
     email        VARCHAR(100),
-    date_contact DATE
+    date_contact DATE,
+    observations VARCHAR2 
 );
 
 CREATE TABLE Categorie
