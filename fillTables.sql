@@ -58,10 +58,10 @@ SELECT 1 FROM DUAL;
 
 INSERT INTO Commande
 VALUES
-    (886, TO_DATE('1/2/2019', 'DD/MM/YYYY'), 1, 2);
+    (886, TO_DATE('1/2/2019', 'DD/MM/YYYY'), 1, 2, 5,036.4);
 
 INSERT ALL
-    INTO ProduitCommandes VALUES (1, 886, 'A01', 10)
-    INTO ProduitCommandes VALUES (2, 886, 'A02', 2)
-    INTO ProduitCommandes VALUES (3, 886, 'B15', 1)
+    INTO ProduitCommandes VALUES (1, 886, 'A01', 10, 1500, 1680)
+    INTO ProduitCommandes VALUES (2, 886, 'A02', 2, 480, 537.6)
+    INTO ProduitCommandes VALUES (3, 886, 'B15', 1, 2349, 2818.8)
 SELECT 1 FROM DUAL;

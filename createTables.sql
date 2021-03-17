@@ -58,7 +58,8 @@ CREATE TABLE Commande
     regle         NUMBER(1) NOT NULL,
     id_client     INT
         CONSTRAINT fk_id_client
-            REFERENCES Client (id_client)
+            REFERENCES Client (id_client),
+    montantTTC       INT         
 );
 
 DROP TABLE ProduitCommandes;
@@ -71,5 +72,7 @@ CREATE TABLE ProduitCommandes
     ref_catalogue VARCHAR(10)
         CONSTRAINT fk_ref_catalogue
             REFERENCES Catalogue(ref),
-    quantite      INT
+    quantite      INT,
+    montantHT     NUMBER,
+    montantTTC  NUMBER,
 );
