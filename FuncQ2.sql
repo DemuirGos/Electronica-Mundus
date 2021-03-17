@@ -5,7 +5,7 @@ DECLARE
 CREATE OR REPLACE FUNCTION getClientWhere(
     where_clause IN VARCHAR2
 )
-RETURN INT IS result
+RETURN INT AS result
 BEGIN 
     stmt := "SELECT id_client INTO result into total FROM Commande" || where_clause || ";";
     EXECUTE IMMEDIATE stmt;
