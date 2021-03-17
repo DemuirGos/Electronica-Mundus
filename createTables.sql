@@ -59,7 +59,8 @@ CREATE TABLE Commande
     id_client     INT
         CONSTRAINT fk_id_client
             REFERENCES Client (id_client),
-    montantTTC       INT         
+    montantHT     INT,
+    montantTTC    INT         
 );
 
 DROP TABLE ProduitCommandes;
@@ -74,5 +75,5 @@ CREATE TABLE ProduitCommandes
             REFERENCES Catalogue(ref),
     quantite      INT,
     montantHT     NUMBER,
-    montantTTC  NUMBER,
+    montantTTC    NUMBER,
 );
