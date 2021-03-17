@@ -9,9 +9,29 @@ INSERT ALL
 SELECT 1 FROM DUAL;
 
 INSERT ALL
-    INTO Client VALUES (1, 'BENTAJER', 'Mhannech II, Tetouan', 1, 'ahmed@mail.com', TO_DATE('2/11/2019', 'DD/MM/YYYY'))
-    INTO Client VALUES (2, 'ESSEGHIRI', 'Res Naoufal app 8, Maarif, Casablanca', 2, 'youssef@mail.com', TO_DATE('27/10/2018', 'DD/MM/YYYY'))
-    INTO Client VALUES (3, 'Houty', 'Settat', 2, 'karim@mail.com', TO_DATE('20/11/2018', 'DD/MM/YYYY'))
+    INTO Client VALUES (1, 
+                        'BENTAJER', 
+                        'Mhannech II,
+                        Tetouan', 
+                        1, 
+                        'ahmed@mail.com',
+                        TO_DATE('2/11/2019', 'DD/MM/YYYY'),
+                       "A passé une grosse commande en janvier 2018 ; depuis, plus rien. Penser à reprendre contact")
+    INTO Client VALUES (2,
+                        'ESSEGHIRI',
+                        'Res Naoufal app 8,
+                        Maarif, Casablanca',
+                        2,
+                        'youssef@mail.com',
+                        TO_DATE('27/10/2018', 'DD/MM/YYYY'),
+                        "Client contactée grâce à M. Houty de Casablanca. Remise de 10% sur la dernière commande suite à un retard d’envoi.")
+    INTO Client VALUES (3, 
+                        'Houty', 
+                        'Settat', 
+                        2, 
+                        'karim@mail.com', 
+                        TO_DATE('20/11/2018', 'DD/MM/YYYY'),
+                        "Client fidèle qui passe des commandes régulièrement (environ une par mois).")
 SELECT 1 FROM DUAL;
 
 INSERT ALL
