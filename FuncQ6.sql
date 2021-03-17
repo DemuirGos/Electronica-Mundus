@@ -1,20 +1,21 @@
-DECLARE
+CREATE OR REPLACE FUNCTION CAdeProduit (idProduit IN VARCHAR2)
+RETURN NUMBER
+AS
     Prix NUMBER := 0;
-    Quantite NUMBER := 0;  
-CREATE OR REPLACE FUNCTION CAdeProduit (
-    idProduit IN NUMBER
-)
-RETURN NUMBER AS total
-BEGIN 
-    DECLARE 
-        CURSOR prodCom IS
-            SELECT * From ProduitCommandes WHERE id_produit = idProduit ;
-    BEGIN
-        LOOP
-            Quantite := Quantite + prodCom.quantite;
-            Prix     := prodCom.montantHT;
-        END LOOP;
-    END
-    total := Quantite * Prix;
-    RETURN total;
-END; 
+    Quantite NUMBER := 0;
+    TYPE PROD_DATA IS RECORD (quant ProduitCommandes.quantite%type, montHt ProduitCommandes.montantHT%type);
+
+    fetchedData PROD_DATA;
+    CURSOR prodCurs IS
+        SELECT QUANTITE, MONTANTHT From ProduitCommandes WHERE REF_CATALOGUE = idProduit;
+BEGIN
+    OPEN prodCurs;
+    LOOP
+        FETCH prodCurs INTO fetchedData;
+        EXIT WHEN prodCurs%NOTFOUND;
+        Quantite := Quantite + fetchedData.quant;
+        Prix     := fetchedData.montHt;
+    END LOOP;
+    close prodCurs;
+    Return Quantite * Prix;
+END;
