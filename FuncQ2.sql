@@ -7,7 +7,7 @@ CREATE OR REPLACE FUNCTION getClientWhere(
 )
 RETURN INT AS result
 BEGIN 
-    stmt := "SELECT id_client INTO result into total FROM Commande" || where_clause || ";";
+    stmt := "SELECT id_client INTO result into total FROM Commande " || where_clause || ";";
     EXECUTE IMMEDIATE stmt;
     RETURN result;
 END; 
