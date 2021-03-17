@@ -12,15 +12,15 @@ CREATE OR REPLACE PROCEDURE launchOrder
              idClient IN COMMANDE.ID_CLIENT%type,
              idProduit IN  ARRAY_OF_VARCHAR,
              quant IN ARRAY_OF_INT,
-             remise IN NUMBER DEFAULT 0)
+             remises IN ARRAY_OF_INT)
 AS
 BEGIN
     Total := 0;
     FOR i IN 1..idProduit.COUNT LOOP
-        SELECT montant, tva INTO Price,TVA FROM COMMANDE WHERE id_produit = id_produit(i);
+        Select montant, tva into Price,TVA from COMMANDE where id_produit = id_produit(i);
         MontantHT := Price * quant(i);
-        INSERT INTO PRODUITCOMMANDES (N_COMMANDE, REF_CATALOGUE, QUANTITE) VALUES (numCom, idProduit(i), quant(i), MontantHT, MontantHT * (1 + TVA));
-        Total = Total + MontantHT * (1 + TVA);
+        INSERT INTO PRODUITCOMMANDES (N_COMMANDE, REF_CATALOGUE, QUANTITE) VALUES (numCom, idProduit(i), quant(i), MontantHT, MontantHT * (1 + TVA) - remises(i));
+        Total = Total + MontantHT * ( 1 + TVA ) - remises(i);
     END LOOP;
-    INSERT INTO COMMANDE VALUES (numCom, dateCom, reg, idCLient, Total - remise);
+    INSERT INTO COMMANDE VALUES (numCom, dateCom, reg, idCLient, Total);
 END;
