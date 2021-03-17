@@ -1,6 +1,3 @@
-CREATE OR REPLACE TYPE ARRAY_OF_VARCHAR IS VARRAY(100) OF VARCHAR2(255);
-CREATE OR REPLACE TYPE ARRAY_OF_INT IS VARRAY(100) OF INT;
-
 CREATE OR REPLACE PROCEDURE launchOrderWithDiscount
             (numCom IN COMMANDE.N_COMMANDE%type,
              dateCom IN COMMANDE.DATE_COMMANDE%TYPE,
@@ -13,3 +10,7 @@ AS
 BEGIN
     launchOrder(numCom,dateCom,reg,idClient,idProduit,quant, remise);
 END;
+
+BEGIN
+    launchOrderWithDiscount(723, '01/FEB/2021', 0, 2, ARRAY_OF_VARCHAR('A01', 'A02'), ARRAY_OF_INT(5, 3), 10);
+end;

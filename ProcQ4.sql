@@ -1,11 +1,3 @@
-CREATE OR REPLACE TYPE ARRAY_OF_VARCHAR IS VARRAY(100) OF VARCHAR2(255);
-CREATE OR REPLACE TYPE ARRAY_OF_INT IS VARRAY(100) OF INT;
-DECLARE 
-    Price NUMBER;
-    TVA   NUMBER;
-    MontantHT NUMBER;
-    TotalHT NUMBER;
-    TotalTTC NUMBER;
 CREATE OR REPLACE PROCEDURE launchOrder
             (numCom IN COMMANDE.N_COMMANDE%type,
              dateCom IN COMMANDE.DATE_COMMANDE%TYPE,
@@ -15,15 +7,22 @@ CREATE OR REPLACE PROCEDURE launchOrder
              quant IN ARRAY_OF_INT,
              remises IN ARRAY_OF_INT)
 AS
+    MontantHT NUMBER;
+    TotalHT NUMBER;
+    TotalTTC NUMBER;
 BEGIN
-    TotalHT := 0;
-    TotalTTC := 0;
+    INSERT INTO COMMANDE VALUES (numCom, dateCom, reg, idCLient, 0, 0);
     FOR i IN 1..idProduit.COUNT LOOP
-        SELECT montant, tva into Price,TVA from COMMANDE where id_produit = id_produit(i);
-        MontantHT := Price * quant(i);
-        INSERT INTO PRODUITCOMMANDES VALUES (numCom, idProduit(i), quant(i), MontantHT, MontantHT * (1 + TVA) - remises(i));
-        TotalTTC = Total + MontantHT * (1 + TVA) - remises(i);
-        TotalHT = Total + MontantHT;
+        addProd(numCom, idProduit(i), quant(i), remises(i));
     END LOOP;
-    INSERT INTO COMMANDE VALUES (numCom, dateCom, reg, idCLient, TotalHT, TotalTTC);
+
+    SELECT SUM (MONTANTHT), SUM (MONTANTTTC)
+    INTO TotalHT, TotalTTC FROM PRODUITCOMMANDES
+    WHERE N_COMMANDE = numCom;
+
+    UPDATE COMMANDE SET MONTANTHT = TotalHT, MONTANTTTC = TotalTTC WHERE N_COMMANDE = numCom;
 END;
+
+BEGIN
+
+end;
