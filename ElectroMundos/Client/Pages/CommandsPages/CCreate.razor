@@ -1,0 +1,17 @@
+@page "/command/create"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+
+<h3>Create</h3>
+<CForm ButtonText="Create Comande" comm="@commande"
+            OnValidSubmit="@CreateCommande" />
+@code {
+    Command commande = new Command ();
+    async Task CreateCommande()
+    {
+        commande.dateOfSubmit=DateTime.Now;
+        await http.PostAsJsonAsync("api/Command", commande);
+        uriHelper.NavigateTo("command");
+    }
+}

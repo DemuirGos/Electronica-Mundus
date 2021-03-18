@@ -3,7 +3,7 @@
 @inject NavigationManager uriHelper
 @inject IJSRuntime js
 <h3>Edit</h3>
-<Form ButtonText="Update" user="client"
+<UForm ButtonText="Update" user="client"
       OnValidSubmit="@EditUser" />
 @code {
     [Parameter] public int userID { get; set; }

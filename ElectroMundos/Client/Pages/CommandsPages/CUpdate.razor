@@ -1,0 +1,21 @@
+@page "/command/edit/{userID:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+<h3>Edit</h3>
+<CForm ButtonText="Update" comm="comm"
+      OnValidSubmit="@EditCommand" />
+@code {
+    [Parameter] public int userID { get; set; }
+    Command comm = new Command();
+    protected async override Task OnParametersSetAsync()
+    {
+        comm = await http.GetFromJsonAsync<Command>($"api/command/{userID}");
+    }
+    async Task EditCommand()
+    {
+        await http.PutAsJsonAsync("api/command", comm);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("Command");
+    }
+}

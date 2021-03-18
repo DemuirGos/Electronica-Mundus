@@ -1,0 +1,65 @@
+@page "/command"
+@inject HttpClient http
+@inject IJSRuntime js
+
+<h3>Clients</h3>
+<small>Add Client :</small>
+<div class="form-group">
+    <a class="btn btn-success" href="command/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+@if (commands == null)
+{
+    <text>Loading...</text>
+}
+else if (commands.Length == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date de commande</th>
+                <th>date de livraison</th>
+                <th>Client</th>
+                <th>PrixTotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Command command in commands)
+            {
+                <tr>
+                    <td>@command.ID</td>
+                    <td>@command.dateOfSubmit.ToString()</td>
+                    <td>@command.dateOfDelvry.ToString()</td>
+                    <td>@command.Client</td>
+                    <td>@command.PriceTTC</td>
+                    <td>
+                        <a class="btn btn-success" href="/command/edit/@command.ID">Edit</a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(command.ID))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    Command[] commands { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        commands = await http.GetFromJsonAsync<Command[]>("api/Command");
+    }
+    async Task Delete(int Id)
+    {
+        var com = commands.First(x => x.ID == Id);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {com.ID}'s  Record?"))
+        {
+            await http.DeleteAsync($"api/Command/{Id}");
+            await OnInitializedAsync();
+        }
+    }
+}
