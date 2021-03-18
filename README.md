@@ -1,2 +1,2 @@
 # Electronica-Mundus
-an academic project mixing between PL/SQL and GUIs
+here we got the Graphs and tables 
