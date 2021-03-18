@@ -3,7 +3,7 @@ CREATE OR REPLACE TRIGGER deliveredTrig
     ON COMMANDE
     FOR EACH ROW
 BEGIN
-    IF :New.ETAT = 1 THEN
+    IF :New.Regle = 1 THEN
         INSERT
         INTO HISTORIQUE (N_COMMANDE, ID_CLIENT, DATE_COMMANDE)
         VALUES (:new.n_commande,
