@@ -1,0 +1,16 @@
+@page "/stock/create"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+
+<h3>Create</h3>
+<SForm ButtonText="Create Item" item="@item"
+            OnValidSubmit="@CreateCommande" />
+@code {
+    Catalogue item = new Catalogue ();
+    async Task CreateCommande()
+    {
+        await http.PostAsJsonAsync("api/Catalogue", item);
+        uriHelper.NavigateTo("stock");
+    }
+}
