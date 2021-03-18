@@ -1,6 +1,7 @@
 CREATE OR REPLACE PROCEDURE launchOrderWithDiscount
             (numCom IN COMMANDE.N_COMMANDE%type,
              dateCom IN COMMANDE.DATE_COMMANDE%TYPE,
+             dateLiv IN COMMANDE.DATE_LIVRAISON%TYPE,
              reg IN COMMANDE.REGLE%TYPE,
              idClient IN COMMANDE.ID_CLIENT%type,
              idProduit IN  ARRAY_OF_VARCHAR,
@@ -8,6 +9,6 @@ CREATE OR REPLACE PROCEDURE launchOrderWithDiscount
              remise IN INT)
 AS
 BEGIN
-    launchOrder(numCom,dateCom,reg,
+    launchOrder(numCom,dateCom, dateLiv, reg,
         idClient,idProduit,quant, remise);
 END;
