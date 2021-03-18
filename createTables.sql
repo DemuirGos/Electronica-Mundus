@@ -83,8 +83,7 @@ CREATE TABLE ProduitCommandes
             REFERENCES Catalogue(ref),
     quantite      INT,
     montantHT     NUMBER,
-    montantTTC    NUMBER,
-    etat NUMBER (1)
+    montantTTC    NUMBER
 );
 
 CREATE TABLE Historique
