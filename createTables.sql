@@ -67,7 +67,8 @@ CREATE TABLE Commande
         CONSTRAINT fk_id_client
             REFERENCES Client (id_client),
     montantHT     INT,
-    montantTTC    INT         
+    montantTTC    INT,
+    date_livraison DATE
 );
 
 
@@ -82,16 +83,19 @@ CREATE TABLE ProduitCommandes
             REFERENCES Catalogue(ref),
     quantite      INT,
     montantHT     NUMBER,
-    montantTTC    NUMBER
+    montantTTC    NUMBER,
+    etat NUMBER (1)
 );
 
-CREATE SEQUENCE prodCom_id_seq;
+CREATE TABLE Historique
+(
+    id_Historique INT PRIMARY KEY,
+    n_commande INT
+        CONSTRAINT fk_hist_n_commande
+            REFERENCES Commande(n_commande),
+    id_client INT
+        CONSTRAINT fk_hist_id_client
+            REFERENCES  Client(id_client),
+    date_commande DATE    NOT NULL
+);
 
-CREATE OR REPLACE TRIGGER prodComTrig
-    BEFORE INSERT ON ProduitCommandes
-    FOR EACH ROW
-BEGIN
-    SELECT prodCom_id_seq.nextval
-    INTO :new.id_produit
-    FROM dual;
-END;
