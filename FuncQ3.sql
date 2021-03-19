@@ -43,7 +43,3 @@ BEGIN
     END IF;
     return result;
 END;
-
-begin
-    DBMS_OUTPUT.PUT_LINE(toUSDorEUR(10, 'EUR'));
-end;

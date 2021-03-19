@@ -11,11 +11,10 @@ AS
 BEGIN
     launchOrder(numCom,
                 dateCom,
-                dateLiv
+                dateLiv,
                 reg,
                 idClient,
                 idProduit,
                 quant, 
                 remise);
 END;
-
