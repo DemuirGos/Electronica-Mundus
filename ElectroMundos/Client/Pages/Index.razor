@@ -4,18 +4,26 @@
 @using Plotly.Blazor.LayoutLib
 
 <h1>Hello!</h1>
-<PlotlyChart Id="TestId" Config="config" Layout="layout" Data="data" @ref="chart"/>
+<PlotlyChart @bind-Config="config" @bind-Layout="layout" @bind-Data="data" @ref="chart"/>
 
 @code {
     History[] temp {get;set;}
-    History[] val {get;set;}
-    History[] nval {get;set;}
 
     PlotlyChart chart {get;set;}
-    Config config {get; set;}
-    Layout layout {get;set;}
-    List<ITrace> data {get;set;} 
-
+    IList<ITrace> data = new List<ITrace>();
+    Config config  = new Config
+        {
+            Responsive = true
+        };
+    Layout layout = new Layout
+        {
+            Title = new Title
+            {
+                Text = "History Logs :"
+            },
+            BarMode = BarModeEnum.Stack,
+            Height = 500
+        };
     protected override async Task OnInitializedAsync()
     {
         await update();
@@ -23,49 +31,35 @@
 
     async Task update(){
         temp = await http.GetFromJsonAsync<History[]>("api/History");
-        var val = from hist in temp where hist.Status == true select hist;
-        var nval = from hist in temp where hist.Status == false select hist;
-        temp = await http.GetFromJsonAsync<History[]>("api/History");
-        config  = new Config
-        {
-            Responsive = true
-        };
-        layout = new Layout
-        {
-            Title = new Title
-            {
-                Text = "History Logs :"
-            },
-            BarMode = BarModeEnum.Stack,
-            Height = 1000
-        };
-        data = new List<ITrace>
-        {
+        var val = (from hist in temp where hist.Status == true select hist).ToArray();
+        var nval = (from hist in temp where hist.Status == false select hist).ToArray();
+        
+        await chart.AddTrace(
             new Bar
             {
                 X = (from log in val
                     group log by log.Date into logGroup
                     orderby logGroup.Key
-                    select logGroup.Key.ToString("dd/MM/yyyy")).ToList()  as IList<object>,
+                    select logGroup.Key.ToString("dd/MM/yyyy") as object).ToList() ,
                 Y = (from log in val
                     group log by log.Date into logGroup
                     orderby logGroup.Key
-                    select logGroup.Count()).ToList()  as IList<object>,
+                    select logGroup.Count() as object).ToList(),
                 Name = "Delivered"
-            },
+            });
+        await chart.AddTrace(
             new Bar
             {
                 X = (from log in nval
                     group log by log.Date into logGroup
                     orderby logGroup.Key
-                    select logGroup.Key.ToString("dd/MM/yyyy")).ToList() as IList<object>,
+                    select logGroup.Key.ToString("dd/MM/yyyy") as object).ToList(),
                 Y = (from log in nval
                     group log by log.Date into logGroup
                     orderby logGroup.Key
-                    select logGroup.Count()).ToList()  as IList<object>,
+                    select logGroup.Count() as object).ToList(),
                 Name = "Not Yet Delivered"
-            }
-        };
-        StateHasChanged();
+            });
+            
     }
 }
