@@ -11,7 +11,6 @@
     <link href="ElectroMundos.Client.styles.css" rel="stylesheet" />
     <link href="manifest.json" rel="manifest" />
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link href="_content/VerticalBarChart/styles.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -23,6 +22,11 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <!-- Import the plotly.js library -->
+    <script src="_content/Plotly.Blazor/plotly-latest.min.js" type="text/javascript"></script>
+
+    <!-- Import the plotly.js interop functions -->
+    <script src="_content/Plotly.Blazor/plotly-interop.js" type="text/javascript"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
 
