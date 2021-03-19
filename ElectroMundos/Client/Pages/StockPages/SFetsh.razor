@@ -1,0 +1,67 @@
+@page "/stock"
+@inject HttpClient http
+@inject IJSRuntime js
+
+<h3>Stock Items</h3>
+<small>Add Client :</small>
+<div class="form-group">
+    <a class="btn btn-success" href="stock/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+@if (items == null)
+{
+    <text>Loading...</text>
+}
+else if (items.Length == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Label</th>
+                <th>Category</th>
+                <th>Family</th>
+                <th>Price</th>
+                <th>Taxes</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Catalogue item in items)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.Label</td>
+                    <td>@item.Category</td>
+                    <td>@item.Family</td>
+                    <td>@item.Price</td>
+                    <td>@item.Tax</td>
+                    <td>
+                        <a class="btn btn-success" href="/stock/edit/@item.ID">Edit</a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(item.ID))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    Catalogue[] items { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        items = await http.GetFromJsonAsync<Catalogue[]>("api/Catalogue");
+    }
+    async Task Delete(string Id)
+    {
+        var item = items.First(x => x.ID == Id);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {item.ID}'s  Record?"))
+        {
+            await http.DeleteAsync($"api/Catalogue/{Id}");
+            await OnInitializedAsync();
+        }
+    }
+}

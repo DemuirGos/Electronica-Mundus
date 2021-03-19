@@ -1,0 +1,49 @@
+﻿@page "/"
+@inject HttpClient http
+@inject IJSRuntime js
+@using Plotly.Blazor.LayoutLib
+
+<h1>Hello!</h1>
+
+<PlotlyChart Id="TestId" Config="config" Layout="layout" Data="data" @ref="chart"/>
+@code {
+    PlotlyChart chart;
+    static History[] temp {get;set;}
+    Config config = new Config
+    {
+        Responsive = true
+    };
+
+    Layout layout {get;set;}
+
+    List<ITrace> data {get;set;} 
+    protected override async Task OnInitializedAsync()
+    {
+        temp = await http.GetFromJsonAsync<History[]>("api/History");
+        data = new List<ITrace>
+        {
+            new Bar
+            {
+                X = (from log in temp
+                    group temp by log.Date into logGroup
+                    orderby logGroup.Key
+                    select logGroup.Key as Object).ToList(),
+                Y = (from log in temp
+                    group log by log.Date into logGroup
+                    orderby logGroup.Key
+                    select logGroup.Count()*50  as Object ).ToList(),
+                Name = "Logs"
+            },
+            
+        };
+        layout = new Layout
+        {
+            Title = new Title
+            {
+                Text = "History Logs :"
+            },
+            BarMode = BarModeEnum.Stack,
+            Height = 1000
+        };
+    }
+}

@@ -1,0 +1,21 @@
+@page "/client/edit/{userID:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+<h3>Edit</h3>
+<UForm ButtonText="Update" user="client"
+      OnValidSubmit="@EditUser" />
+@code {
+    [Parameter] public int userID { get; set; }
+    User client = new User();
+    protected async override Task OnParametersSetAsync()
+    {
+        client = await http.GetFromJsonAsync<User>($"api/user/{userID}");
+    }
+    async Task EditUser()
+    {
+        await http.PutAsJsonAsync("api/user", client);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("Clients");
+    }
+}

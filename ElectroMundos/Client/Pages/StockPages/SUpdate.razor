@@ -1,0 +1,21 @@
+@page "/stock/edit/{itmID}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+<h3>Edit</h3>
+<SForm ButtonText="Update" item="comm"
+      OnValidSubmit="@EditCommand" />
+@code {
+    [Parameter] public string itmID { get; set; }
+    Catalogue comm = new Catalogue();
+    protected async override Task OnParametersSetAsync()
+    {
+        comm = await http.GetFromJsonAsync<Catalogue>($"api/Catalogue/{itmID}");
+    }
+    async Task EditCommand()
+    {
+        await http.PutAsJsonAsync("api/Catalogue", comm);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("stock");
+    }
+}

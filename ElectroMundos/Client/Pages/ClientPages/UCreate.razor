@@ -1,0 +1,20 @@
+@page "/client/create"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+
+<h3>Create</h3>
+<UForm ButtonText="Create Client" user="@client"
+            OnValidSubmit="@CreateClient" />
+@code {
+    User client = new User {
+        Region = "Default"
+    };
+    async Task CreateClient()
+    {
+        client.ID = client.FullName.GetHashCode() ;
+        client.Date = DateTime.Now;
+        await http.PostAsJsonAsync("api/User", client);
+        uriHelper.NavigateTo("clients");
+    }
+}

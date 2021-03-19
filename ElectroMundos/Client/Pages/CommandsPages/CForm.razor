@@ -1,0 +1,47 @@
+<EditForm Model="@comm" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group ">
+        <div>
+            <label>Date de livraison :</label>
+            <div>
+                <input type="date" @bind="@comm.dateOfDelvry" @bind:format="yyyy-MM-dd">
+                <ValidationMessage For="@(() => comm.dateOfDelvry)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Client :</label>
+            <div>
+                <InputNumber @bind-Value="@comm.Client" />
+                <ValidationMessage For="@(() => comm.Client)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>PrixHT :</label>
+            <div>
+                <InputNumber @bind-Value="@comm.PriceHT" />
+                <ValidationMessage For="@(() => comm.PriceHT)" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>PrixTTC :</label>
+            <div>
+                <InputNumber @bind-Value="@comm.PriceTTC" />
+                <ValidationMessage For="@(() => comm.PriceTTC)" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+@code {
+    [Parameter] public Command comm { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}
