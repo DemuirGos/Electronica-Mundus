@@ -2,8 +2,8 @@
 @inject HttpClient http
 @inject IJSRuntime js
 
-<h3>Clients</h3>
-<small>Add Client :</small>
+<h3>Commandes</h3>
+<small>Add Commande :</small>
 <div class="form-group">
     <a class="btn btn-success" href="command/create"><i class="oi oi-plus"></i> Create New</a>
 </div>
@@ -26,6 +26,7 @@ else
                 <th>date de livraison</th>
                 <th>Client</th>
                 <th>PrixTotal</th>
+                <th>Status </th>
                 <th></th>
             </tr>
         </thead>
@@ -38,6 +39,7 @@ else
                     <td>@command.dateOfDelvry.ToString()</td>
                     <td>@command.Client</td>
                     <td>@command.PriceTTC</td>
+                    <td><input type="checkbox" @onchange="async eventArgs => { await CheckboxClicked(command, eventArgs.Value); }" /></td>
                     <td>
                         <a class="btn btn-success" href="/command/edit/@command.ID">Edit</a>
                         <button class="btn btn-danger" @onclick="@(() => Delete(command.ID))">Delete</button>
@@ -60,6 +62,17 @@ else
         {
             await http.DeleteAsync($"api/Command/{Id}");
             await OnInitializedAsync();
+        }
+    }
+
+    async Task CheckboxClicked(Command com, Object checkedValue)
+    {
+        bool? x = checkedValue as bool?;
+        if (x is not null)
+        {
+            com.Status = x.Value;
+            if(await js.InvokeAsync<bool>("confirm", $"Do you want to Change {com.ID}'s  Status?"))
+                await http.PutAsJsonAsync("api/command", com);
         }
     }
 }
