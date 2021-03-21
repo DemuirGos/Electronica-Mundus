@@ -4,7 +4,10 @@
 @using Plotly.Blazor.LayoutLib
 
 <h1>Hello!</h1>
-<PlotlyChart @bind-Config="config" @bind-Layout="layout" @bind-Data="data" @ref="chart"/>
+<PlotlyChart @bind-Config="config" 
+             @bind-Layout="layout" 
+             @bind-Data="data"
+             @ref="chart"/>
 
 @code {
     History[] temp {get;set;}
